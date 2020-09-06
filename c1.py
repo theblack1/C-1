@@ -93,9 +93,7 @@ for update_time in update_times:
         update_times[i] = (time + datetime.timedelta(hours = -int(update_time))).strftime("%Y-%m-%dT%H:%M:%S")
     elif update_time.find("-") != -1:
         update_time = update_time.replace('0','')
-        scissors = update_time.split('-')
-        update_times[i] = (time + datetime.timedelta(months= -int(scissors[0])) + datetime.timedelta(days= -int(scissors[1]))).strftime("%Y-%m-%dT%H:%M:%S")
-        scissors.clear
+        update_times[i] =time.strftime('%Y-') + update_time + time.strftime("T%H:%M:%S")
     i = i + 1
 i = 0
 #将时间搞定！

@@ -19,8 +19,7 @@ from bs4 import BeautifulSoup as bs
 import json
 import datetime
 import os
-time = str(datetime.datetime.now())
-now = time[0:10] + 'T' +  time[11:20]
+time = datetime.datetime.now()
 #引入
 
 requ = request.Request("http://www.infzm.com/topics/t2.html")
@@ -85,10 +84,11 @@ while len(update_times) < 9:
     scissors.clear()
     i = i + 1
 #分类完毕
+now_time = time.strftime("%Y-%m-%dT%H:%M:%S")
 
 for link3 in soup.find_all('a'):
     links.append(link3['href'])
-#获得初略的档案
+#获得粗略的档案
 
 while n > nub + 1:
     nub = nub + 1  
@@ -108,7 +108,7 @@ article_info = {}
 data = json.loads(json.dumps(article_info))
 data['Name'] = "南方周报'新闻'"
 data['Order'] = the_order
-data['Generate at'] = now
+data['Generate at'] = now_time
 data['Date'] = allnews
 article = json.dumps(data,ensure_ascii=False,indent=4,separators=(',', ': '))
 #Json内容编写
@@ -117,10 +117,10 @@ adress = os.getcwd() + '\\output\\'
 if not os.path.exists(adress):
     os.makedirs(adress)
 
-nowcut = now[0:13] + 'h' + now[14:16] + 'm' + now[17:19] + 's'
+creat_time = (time).strftime("%Y-%m-%d-%H-%M-%S")
 
-t = open(adress + nowcut + '.json','w',encoding = 'utf-8')
+t = open(adress + creat_time + '.json','w',encoding = 'utf-8')
 t.write(article)
 t.close
-print('您的文件已输出到工作目录的\"output\"文件夹下，请注意查收。')
+print('您的文件已输出到' + adress + '文件夹下，请注意查收。')
 #输出！！！

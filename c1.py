@@ -78,13 +78,27 @@ i = 0
 while len(update_times) < 9:
     scissors = kinds[i].split('\n')
     sort_.append(scissors[0])
-    if len(scissors[1]) == 4:
-        scissors[1] = '0' + scissors[1]
     update_times.append(scissors[1])
     scissors.clear()
     i = i + 1
+i = 0
 #分类完毕
 now_time = time.strftime("%Y-%m-%dT%H:%M:%S")
+for update_time in update_times:
+    if update_time.find("分") != -1:
+        update_time = update_time.replace('分钟前','')
+        update_times[i] = (time + datetime.timedelta(minutes = -int(update_time))).strftime("%Y-%m-%dT%H:%M:%S")
+    elif update_time.find("小时") != -1:
+        update_time = update_time.replace('小时前','')
+        update_times[i] = (time + datetime.timedelta(hours = -int(update_time))).strftime("%Y-%m-%dT%H:%M:%S")
+    elif update_time.find("-") != -1:
+        update_time = update_time.replace('0','')
+        scissors = update_time.split('-')
+        update_times[i] = (time + datetime.timedelta(months= -int(scissors[0])) + datetime.timedelta(days= -int(scissors[1]))).strftime("%Y-%m-%dT%H:%M:%S")
+        scissors.clear
+    i = i + 1
+i = 0
+#将时间搞定！
 
 for link3 in soup.find_all('a'):
     links.append(link3['href'])

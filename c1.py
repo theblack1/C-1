@@ -13,7 +13,7 @@ news = {"Title":0,"Type":0,"Update time":0, "Url":0}
 allnews = []
 the_order = "I Think U Did Not Set Order!!!!"
 set_ = 0
-topic = 2
+#topic = 2
 #设定
 
 from urllib import request
@@ -24,12 +24,12 @@ import os
 import sys
 time = datetime.datetime.now()
 #引入
-
+'''
 print ("输入数字，选择您要摘取的模块")
 print ("0，首页\n1，推荐\n2,新闻\n3,观点\n4，文化\n7，人物\n8,影像\n6，专题，\5生活\n131，视频（只能查看标题）")
 topic = int(input())
 #选择要查询的板块
-
+'''
 requ = request.Request("http://www.infzm.com/topics/t2.html")
 requ.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44')
 resp = request.urlopen(requ)

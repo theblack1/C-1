@@ -12,6 +12,8 @@ links = []
 news = {"Title":0,"Type":0,"Update time":0, "Url":0}
 allnews = []
 the_order = "I Think U Did Not Set Order!!!!"
+set_ = 0
+topic = 2
 #设定
 
 from urllib import request
@@ -19,8 +21,14 @@ from bs4 import BeautifulSoup as bs
 import json
 import datetime
 import os
+import sys
 time = datetime.datetime.now()
 #引入
+
+print ("输入数字，选择您要摘取的模块")
+print ("0，首页\n1，推荐\n2,新闻\n3,观点\n4，文化\n7，人物\n8,影像\n6，专题，\5生活\n131，视频（只能查看标题）")
+topic = int(input())
+#选择要查询的板块
 
 requ = request.Request("http://www.infzm.com/topics/t2.html")
 requ.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44')
@@ -33,39 +41,53 @@ soup = bs(doc,'html.parser')
 [s.extract() for s in soup(class_="nfzm-brand")]
 #制作一碗汤
 
-while n == 0:
-    print ('最多可查询9条,请输入读取条数：')
-    n = int(input())
-    if n > 9:
-        print('你的数字太大了，小一点试试')
-        n = 0
-    elif n < 0:
-        print('你的数字太小了，大一点点嘛~~~')
-        n = 0
-titles.clear()
-#输入读取条数
-
-print("请设置排序方式的数字（'1'为按照标题的utf-8编码输出，\n'2'为按照门类的utf-8编码输出，\n'3'为按照更新时间输出，\n'4'为按照网址输出，\n输入其他数字，则按照原网站的默认顺序输出。\n")
-print('偷偷备注：我不会按照中文的拼音输出（啊这。。。。。。）')
-print('你选择？（请务必填写数字！）')
-order = int(input())
-if order == 1:
-    the_order = "Title"
-elif order == 2:
-    the_order = "Type"
-elif order == 3:
-    the_order = "Update time"
-elif order == 4:
-    the_order = "Url"
-else :
-    order = 0
-#输入排序标准
-
-for link1 in soup.find_all('h5'):
+for link1 in soup.find_all(class_='nfzm-content-item__title'):
     title = link1.get_text()
     titles.append(title.lstrip().strip())
 titles.pop(0)
 #制作标题的list
+
+if len(titles) == 0:
+    print('不好意思，你这里用不了，\n（我确认我的电脑可以允许这个程序！！！）\n这是历史遗留问题，我会回来解决的！但是不是现在。')
+    print("输入任意数字确认退出")
+    n = int(input())
+    sys.exit()
+
+max_ = len(titles)
+while n == 0:
+    print ('最多可查询' ,max_ , '条,请输入读取条数：')
+    n = int(input())
+    if n != 416:
+        if n > max_:
+            print('你的数字太大了，小一点试试')
+            n = 0
+        elif n <= 0:
+            print('你的数字太小了，大一点点嘛~~~')
+            n = 0
+    else:
+        set_ = 1
+        print("Test modle on")
+        n = max_
+#输入读取条数
+
+if set_ == 0 :
+    print("\n请设置排序方式:\n'1'为按照标题的utf-8编码输出，\n'2'为按照门类的utf-8编码输出，\n'3'为按照更新时间输出，\n'4'为按照网址输出，\n输入其他数字，则按照原网站的默认顺序输出。\n")
+    print('请输入：')
+    order = int(input())
+    if order == 1:
+        the_order = "Title"
+    elif order == 2:
+        the_order = "Type"
+    elif order == 3:
+        the_order = "Update time"
+    elif order == 4:
+        the_order = "Url"
+    else :
+        order = 0
+else:
+    order = 0
+#输入排序标准
+
 
 for link2 in soup.find_all(class_='nfzm-content-item__meta'):
     kind = (link2.get_text()).lstrip().strip()

@@ -44,7 +44,6 @@ soup = bs(doc,'html.parser')
 for link1 in soup.find_all(class_='nfzm-content-item__title'):
     title = link1.get_text()
     titles.append(title.lstrip().strip())
-titles.pop(0)
 #制作标题的list
 
 if len(titles) == 0:
@@ -52,6 +51,8 @@ if len(titles) == 0:
     print("输入任意数字确认退出")
     n = int(input())
     sys.exit()
+
+titles.pop(0)
 
 max_ = len(titles)
 while n == 0:

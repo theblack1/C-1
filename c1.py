@@ -163,4 +163,7 @@ t = open(adress + creat_time + '.json','w',encoding = 'utf-8')
 t.write(article)
 t.close
 print('您的文件已输出到' + adress + '文件夹下，请注意查收。')
+print("输入任意数字确认退出")
+n = int(input())
+sys.exit()
 #输出！！！

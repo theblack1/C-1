@@ -30,27 +30,32 @@ print ("0，首页\n1，推荐\n2,新闻\n3,观点\n4，文化\n7，人物\n8,�
 topic = int(input())
 #选择要查询的板块
 '''
-requ = request.Request("http://www.infzm.com/topics/t2.html")
-requ.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44')
-resp = request.urlopen(requ)
-doc = resp.read().decode("utf-8")
-soup = bs(doc,'html.parser')
-[s.extract() for s in soup(class_='pull-right')]
-[s.extract() for s in soup('head')]
-[s.extract() for s in soup(class_="nfzm-header")]
-[s.extract() for s in soup(class_="nfzm-brand")]
+while len(titles) == 0:
+    requ = request.Request("http://www.infzm.com/topics/t2.html")
+    requ.add_header('User-Agent','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36 Edg/85.0.564.44')
+    resp = request.urlopen(requ)
+    doc = resp.read().decode("utf-8")
+    soup = bs(doc,'html.parser')
+    [s.extract() for s in soup(class_='pull-right')]
+    [s.extract() for s in soup('head')]
+    [s.extract() for s in soup(class_="nfzm-header")]
+    [s.extract() for s in soup(class_="nfzm-brand")]
+#print(soup.get_text)
 #制作一碗汤
+    for link1 in soup.find_all(class_='nfzm-content-item__title'):
+        title = link1.get_text()
+        titles.append(title.lstrip().strip())
 
-for link1 in soup.find_all(class_='nfzm-content-item__title'):
-    title = link1.get_text()
-    titles.append(title.lstrip().strip())
+    
 #制作标题的list
 
+'''
 if len(titles) == 0:
     print('不好意思，你这里用不了，\n（我确认我的电脑可以允许这个程序！！！）\n这是历史遗留问题，我会回来解决的！但是不是现在。')
     print("输入任意数字确认退出")
     n = int(input())
     sys.exit()
+'''
 
 titles.pop(0)
 
